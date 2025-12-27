@@ -2,8 +2,8 @@
 # Auto-updated during generation - tracks progress and concepts covered
 # Last updated: 2025-12-27
 
-last_updated: 2025-12-27T15:00:00
-total_generated: 349
+last_updated: 2025-12-27T16:30:00
+total_generated: 617
 total_target: 3075
 
 topics:
@@ -584,29 +584,29 @@ topics:
   Portfolio Management:
     prefix: PM
     target: 300
-    generated: 32
+    generated: 300
     subtopics:
       Portfolio Risk and Return I:
         target: 45
-        generated: 6
-        complete: false
+        generated: 50
+        complete: true
       Portfolio Risk and Return II:
         target: 45
-        generated: 6
-        complete: false
+        generated: 50
+        complete: true
       Portfolio Management Overview:
         target: 30
-        generated: 5
-        complete: false
+        generated: 50
+        complete: true
       Portfolio Planning:
         target: 35
-        generated: 5
-        complete: false
+        generated: 50
+        complete: true
       Behavioral Biases:
         target: 35
-        generated: 5
-        complete: false
+        generated: 50
+        complete: true
       Risk Management:
         target: 40
-        generated: 5
-        complete: false
+        generated: 50
+        complete: true
