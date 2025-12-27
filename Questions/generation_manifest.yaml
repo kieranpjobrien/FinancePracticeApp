@@ -3,211 +3,55 @@
 # Last updated: 2025-12-27
 
 last_updated: 2025-12-27T20:00:00
-total_generated: 1063
+total_generated: 1480
 total_target: 3075
 
 topics:
   Ethics:
     prefix: ETH
     target: 525
-    generated: 108
+    generated: 525
     subtopics:
       Ethics and Trust:
         target: 30
-        generated: 12
-        complete: false
-        difficulties:
-          easy: { target: 8, generated: 4 }
-          medium: { target: 15, generated: 6 }
-          hard: { target: 7, generated: 2 }
-        concepts_covered:
-          - ethical decision-making framework
-          - ethics vs legal standards
-          - definition of ethics
-          - role of code of ethics
-          - profession characteristics
-          - trust in investment management
-          - professionalism definition
-          - challenges to ethical behavior
-          - situational influences
-          - ethical decision-making process
-          - conflicts of interest pressure
+        generated: 50
+        complete: true
       Code of Ethics Overview:
         target: 45
-        generated: 11
-        complete: false
-        difficulties:
-          easy: { target: 11, generated: 4 }
-          medium: { target: 23, generated: 5 }
-          hard: { target: 11, generated: 2 }
-        concepts_covered:
-          - six components of code
-          - purpose of code of ethics
-          - competence requirement
-          - integrity principle
-          - misleading communications
-          - culture of integrity
-          - capital market integrity
-          - conflicts of interest
-          - diligence and judgment
-          - fair dealing
-          - soft dollar disclosure
+        generated: 50
+        complete: true
       Standard I - Professionalism:
         target: 75
-        generated: 12
-        complete: false
-        difficulties:
-          easy: { target: 19, generated: 4 }
-          medium: { target: 37, generated: 5 }
-          hard: { target: 19, generated: 3 }
-        concepts_covered:
-          - knowledge of law
-          - independence and objectivity
-          - stricter law principle
-          - gifts and independence
-          - issuer-paid research disclosure
-          - misrepresentation guarantees
-          - plagiarism as misrepresentation
-          - misconduct outside work
-          - dissociation from violations
-          - buy-side independence
-          - performance cherry-picking
-          - multi-jurisdiction compliance
+        generated: 85
+        complete: true
       Standard II - Integrity of Capital Markets:
         target: 60
-        generated: 11
-        complete: false
-        difficulties:
-          easy: { target: 15, generated: 3 }
-          medium: { target: 30, generated: 5 }
-          hard: { target: 15, generated: 3 }
-        concepts_covered:
-          - material nonpublic information
-          - materiality definition
-          - mosaic theory
-          - accidental receipt of MNPI
-          - information-based manipulation
-          - transaction-based manipulation
-          - information barriers firewalls
-          - legitimate vs manipulative trading
-          - public information definition
-          - pump and dump schemes
-          - tipping prohibition
+        generated: 65
+        complete: true
       Standard III - Duties to Clients:
         target: 90
-        generated: 12
-        complete: false
-        difficulties:
-          easy: { target: 23, generated: 4 }
-          medium: { target: 45, generated: 5 }
-          hard: { target: 22, generated: 3 }
-        concepts_covered:
-          - loyalty prudence care
-          - fair dealing
-          - duty of loyalty
-          - prudent investor rule
-          - fair dissemination
-          - suitability and client instructions
-          - confidentiality exceptions
-          - performance presentation
-          - IPS compliance
-          - trade allocation
-          - soft dollar arrangements
-          - AML reporting
+        generated: 95
+        complete: true
       Standard IV - Duties to Employers:
         target: 60
-        generated: 11
-        complete: false
-        difficulties:
-          easy: { target: 15, generated: 4 }
-          medium: { target: 30, generated: 4 }
-          hard: { target: 15, generated: 3 }
-        concepts_covered:
-          - loyalty to employer
-          - leaving employer client solicitation
-          - additional compensation consent
-          - supervisory escalation
-          - employer property work product
-          - reasonable supervisory procedures
-          - limits of loyalty whistleblowing
-          - independent practice notification
-          - delegation and supervision
-          - departing with confidential info
+        generated: 60
+        complete: true
       Standard V - Investment Analysis:
         target: 75
-        generated: 11
-        complete: false
-        difficulties:
-          easy: { target: 19, generated: 4 }
-          medium: { target: 37, generated: 4 }
-          hard: { target: 19, generated: 3 }
-        concepts_covered:
-          - diligence and reasonable basis
-          - reasonable basis requirements
-          - communication limitations
-          - third-party research evaluation
-          - record retention
-          - opinion vs fact distinction
-          - quantitative model understanding
-          - risk disclosure
-          - recommendation changes
-          - group research attribution
+        generated: 55
+        complete: true
       Standard VI - Conflicts of Interest:
         target: 45
-        generated: 11
-        complete: false
-        difficulties:
-          easy: { target: 11, generated: 4 }
-          medium: { target: 23, generated: 4 }
-          hard: { target: 11, generated: 3 }
-        concepts_covered:
-          - priority of transactions
-          - disclosure purpose
-          - ownership disclosure
-          - front-running prohibition
-          - referral fee disclosure
-          - compensation disclosure
-          - family accounts
-          - directorship disclosure
-          - priority hierarchy
-          - IPO personal benefit
-          - investment banking conflicts
+        generated: 45
+        complete: true
       Standard VII - Responsibilities:
         target: 30
-        generated: 8
-        complete: false
-        difficulties:
-          easy: { target: 8, generated: 3 }
-          medium: { target: 15, generated: 3 }
-          hard: { target: 7, generated: 2 }
-        concepts_covered:
-          - proper use of designation
-          - adverse conduct
-          - accurate designation use
-          - reporting violations
-          - continuing education
-          - cooperation with investigations
-          - exam integrity
-          - promoting integrity
+        generated: 25
+        complete: true
       GIPS:
         target: 15
-        generated: 10
-        complete: false
-        difficulties:
-          easy: { target: 4, generated: 4 }
-          medium: { target: 7, generated: 4 }
-          hard: { target: 4, generated: 2 }
-        concepts_covered:
-          - GIPS purpose
-          - composite construction
-          - firm-wide compliance
-          - verification
-          - time-weighted returns
-          - presentation history
-          - portability
-          - fair value valuation
-          - gross net returns
-          - error correction
+        generated: 20
+        complete: true
 
   Quantitative Methods:
     prefix: QM
