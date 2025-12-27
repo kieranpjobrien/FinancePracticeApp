@@ -584,29 +584,29 @@ topics:
   Portfolio Management:
     prefix: PM
     target: 300
-    generated: 2
+    generated: 32
     subtopics:
       Portfolio Risk and Return I:
         target: 45
-        generated: 1
+        generated: 6
         complete: false
       Portfolio Risk and Return II:
         target: 45
-        generated: 1
+        generated: 6
         complete: false
       Portfolio Management Overview:
         target: 30
-        generated: 0
+        generated: 5
         complete: false
       Portfolio Planning:
         target: 35
-        generated: 0
+        generated: 5
         complete: false
       Behavioral Biases:
         target: 35
-        generated: 0
+        generated: 5
         complete: false
       Risk Management:
         target: 40
-        generated: 0
+        generated: 5
         complete: false
