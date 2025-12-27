@@ -2,8 +2,8 @@
 # Auto-updated during generation - tracks progress and concepts covered
 # Last updated: 2025-12-27
 
-last_updated: 2025-12-27T18:00:00
-total_generated: 810
+last_updated: 2025-12-27T20:00:00
+total_generated: 1063
 total_target: 3075
 
 topics:
@@ -546,40 +546,40 @@ topics:
   Alternative Investments:
     prefix: ALT
     target: 255
-    generated: 2
+    generated: 255
     subtopics:
       Alternative Investment Features:
         target: 25
-        generated: 1
-        complete: false
+        generated: 30
+        complete: true
       Alternative Investment Performance:
         target: 20
-        generated: 1
-        complete: false
+        generated: 30
+        complete: true
       Private Capital:
         target: 40
-        generated: 0
-        complete: false
+        generated: 40
+        complete: true
       Real Estate:
         target: 40
-        generated: 0
-        complete: false
+        generated: 40
+        complete: true
       Infrastructure:
         target: 25
-        generated: 0
-        complete: false
+        generated: 30
+        complete: true
       Natural Resources:
         target: 25
-        generated: 0
-        complete: false
+        generated: 30
+        complete: true
       Hedge Funds:
         target: 35
-        generated: 0
-        complete: false
+        generated: 35
+        complete: true
       Digital Assets:
         target: 15
-        generated: 0
-        complete: false
+        generated: 20
+        complete: true
 
   Portfolio Management:
     prefix: PM
