@@ -1,0 +1,74 @@
+# Finance Practice App Configuration
+# Generic finance certification exam preparation tool
+
+vault_path: "."  # Current directory
+
+server:
+  host: "localhost"
+  port: 8000
+  frontend_port: 5173
+
+practice:
+  default_questions: 20
+  default_time_per_question: 90  # seconds, 0 for untimed
+  show_explanation_immediately: false
+
+scoring:
+  weak_threshold: 60  # Below this % = weak topic
+  strong_threshold: 80  # Above this % = strong topic
+  min_questions_for_assessment: 10
+
+generation:
+  target_total_questions: 3000
+  questions_per_batch: 10
+  review_before_adding: true
+
+paths:
+  questions: "Questions"
+  sessions: "Sessions"
+  feedback: "Feedback"
+  flashcards: "Flashcards"
+  lessons: "Lessons"
+
+# Topic weights based on typical finance certification exam distributions
+topics:
+  - name: "Ethics"
+    prefix: "ETH"
+    weight: 17.5
+    target_questions: 525
+  - name: "Quantitative Methods"
+    prefix: "QM"
+    weight: 7.5
+    target_questions: 225
+  - name: "Economics"
+    prefix: "ECO"
+    weight: 7.5
+    target_questions: 225
+  - name: "Financial Statement Analysis"
+    prefix: "FSA"
+    weight: 12.5
+    target_questions: 375
+  - name: "Corporate Issuers"
+    prefix: "CI"
+    weight: 7.5
+    target_questions: 225
+  - name: "Equity"
+    prefix: "EQ"
+    weight: 12.5
+    target_questions: 375
+  - name: "Fixed Income"
+    prefix: "FI"
+    weight: 12.5
+    target_questions: 375
+  - name: "Derivatives"
+    prefix: "DER"
+    weight: 6.5
+    target_questions: 195
+  - name: "Alternative Investments"
+    prefix: "ALT"
+    weight: 8.5
+    target_questions: 255
+  - name: "Portfolio Management"
+    prefix: "PM"
+    weight: 10.0
+    target_questions: 300

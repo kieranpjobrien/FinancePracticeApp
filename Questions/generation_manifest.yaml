@@ -1,0 +1,612 @@
+# Finance Practice Question Generation Manifest
+# Auto-updated during generation - tracks progress and concepts covered
+# Last updated: 2025-12-27
+
+last_updated: 2025-12-27T15:00:00
+total_generated: 349
+total_target: 3075
+
+topics:
+  Ethics:
+    prefix: ETH
+    target: 525
+    generated: 108
+    subtopics:
+      Ethics and Trust:
+        target: 30
+        generated: 12
+        complete: false
+        difficulties:
+          easy: { target: 8, generated: 4 }
+          medium: { target: 15, generated: 6 }
+          hard: { target: 7, generated: 2 }
+        concepts_covered:
+          - ethical decision-making framework
+          - ethics vs legal standards
+          - definition of ethics
+          - role of code of ethics
+          - profession characteristics
+          - trust in investment management
+          - professionalism definition
+          - challenges to ethical behavior
+          - situational influences
+          - ethical decision-making process
+          - conflicts of interest pressure
+      Code of Ethics Overview:
+        target: 45
+        generated: 11
+        complete: false
+        difficulties:
+          easy: { target: 11, generated: 4 }
+          medium: { target: 23, generated: 5 }
+          hard: { target: 11, generated: 2 }
+        concepts_covered:
+          - six components of code
+          - purpose of code of ethics
+          - competence requirement
+          - integrity principle
+          - misleading communications
+          - culture of integrity
+          - capital market integrity
+          - conflicts of interest
+          - diligence and judgment
+          - fair dealing
+          - soft dollar disclosure
+      Standard I - Professionalism:
+        target: 75
+        generated: 12
+        complete: false
+        difficulties:
+          easy: { target: 19, generated: 4 }
+          medium: { target: 37, generated: 5 }
+          hard: { target: 19, generated: 3 }
+        concepts_covered:
+          - knowledge of law
+          - independence and objectivity
+          - stricter law principle
+          - gifts and independence
+          - issuer-paid research disclosure
+          - misrepresentation guarantees
+          - plagiarism as misrepresentation
+          - misconduct outside work
+          - dissociation from violations
+          - buy-side independence
+          - performance cherry-picking
+          - multi-jurisdiction compliance
+      Standard II - Integrity of Capital Markets:
+        target: 60
+        generated: 11
+        complete: false
+        difficulties:
+          easy: { target: 15, generated: 3 }
+          medium: { target: 30, generated: 5 }
+          hard: { target: 15, generated: 3 }
+        concepts_covered:
+          - material nonpublic information
+          - materiality definition
+          - mosaic theory
+          - accidental receipt of MNPI
+          - information-based manipulation
+          - transaction-based manipulation
+          - information barriers firewalls
+          - legitimate vs manipulative trading
+          - public information definition
+          - pump and dump schemes
+          - tipping prohibition
+      Standard III - Duties to Clients:
+        target: 90
+        generated: 12
+        complete: false
+        difficulties:
+          easy: { target: 23, generated: 4 }
+          medium: { target: 45, generated: 5 }
+          hard: { target: 22, generated: 3 }
+        concepts_covered:
+          - loyalty prudence care
+          - fair dealing
+          - duty of loyalty
+          - prudent investor rule
+          - fair dissemination
+          - suitability and client instructions
+          - confidentiality exceptions
+          - performance presentation
+          - IPS compliance
+          - trade allocation
+          - soft dollar arrangements
+          - AML reporting
+      Standard IV - Duties to Employers:
+        target: 60
+        generated: 11
+        complete: false
+        difficulties:
+          easy: { target: 15, generated: 4 }
+          medium: { target: 30, generated: 4 }
+          hard: { target: 15, generated: 3 }
+        concepts_covered:
+          - loyalty to employer
+          - leaving employer client solicitation
+          - additional compensation consent
+          - supervisory escalation
+          - employer property work product
+          - reasonable supervisory procedures
+          - limits of loyalty whistleblowing
+          - independent practice notification
+          - delegation and supervision
+          - departing with confidential info
+      Standard V - Investment Analysis:
+        target: 75
+        generated: 11
+        complete: false
+        difficulties:
+          easy: { target: 19, generated: 4 }
+          medium: { target: 37, generated: 4 }
+          hard: { target: 19, generated: 3 }
+        concepts_covered:
+          - diligence and reasonable basis
+          - reasonable basis requirements
+          - communication limitations
+          - third-party research evaluation
+          - record retention
+          - opinion vs fact distinction
+          - quantitative model understanding
+          - risk disclosure
+          - recommendation changes
+          - group research attribution
+      Standard VI - Conflicts of Interest:
+        target: 45
+        generated: 11
+        complete: false
+        difficulties:
+          easy: { target: 11, generated: 4 }
+          medium: { target: 23, generated: 4 }
+          hard: { target: 11, generated: 3 }
+        concepts_covered:
+          - priority of transactions
+          - disclosure purpose
+          - ownership disclosure
+          - front-running prohibition
+          - referral fee disclosure
+          - compensation disclosure
+          - family accounts
+          - directorship disclosure
+          - priority hierarchy
+          - IPO personal benefit
+          - investment banking conflicts
+      Standard VII - Responsibilities:
+        target: 30
+        generated: 8
+        complete: false
+        difficulties:
+          easy: { target: 8, generated: 3 }
+          medium: { target: 15, generated: 3 }
+          hard: { target: 7, generated: 2 }
+        concepts_covered:
+          - proper use of designation
+          - adverse conduct
+          - accurate designation use
+          - reporting violations
+          - continuing education
+          - cooperation with investigations
+          - exam integrity
+          - promoting integrity
+      GIPS:
+        target: 15
+        generated: 10
+        complete: false
+        difficulties:
+          easy: { target: 4, generated: 4 }
+          medium: { target: 7, generated: 4 }
+          hard: { target: 4, generated: 2 }
+        concepts_covered:
+          - GIPS purpose
+          - composite construction
+          - firm-wide compliance
+          - verification
+          - time-weighted returns
+          - presentation history
+          - portability
+          - fair value valuation
+          - gross net returns
+          - error correction
+
+  Quantitative Methods:
+    prefix: QM
+    target: 225
+    generated: 225
+    subtopics:
+      Rates and Returns:
+        target: 25
+        generated: 1
+        complete: false
+      Time Value of Money:
+        target: 35
+        generated: 1
+        complete: false
+      Statistical Measures:
+        target: 30
+        generated: 0
+        complete: false
+      Probability Trees:
+        target: 30
+        generated: 0
+        complete: false
+      Portfolio Mathematics:
+        target: 25
+        generated: 0
+        complete: false
+      Simulation Methods:
+        target: 20
+        generated: 0
+        complete: false
+      Estimation and Inference:
+        target: 20
+        generated: 0
+        complete: false
+      Hypothesis Testing:
+        target: 20
+        generated: 0
+        complete: false
+      Simple Linear Regression:
+        target: 15
+        generated: 0
+        complete: false
+      Big Data Techniques:
+        target: 5
+        generated: 0
+        complete: false
+
+  Economics:
+    prefix: ECO
+    target: 225
+    generated: 2
+    subtopics:
+      Firm and Market Structures:
+        target: 35
+        generated: 1
+        complete: false
+      Business Cycles:
+        target: 25
+        generated: 1
+        complete: false
+      Fiscal Policy:
+        target: 30
+        generated: 0
+        complete: false
+      Monetary Policy:
+        target: 35
+        generated: 0
+        complete: false
+      Geopolitics:
+        target: 25
+        generated: 0
+        complete: false
+      International Trade:
+        target: 25
+        generated: 0
+        complete: false
+      Capital Flows and FX:
+        target: 30
+        generated: 0
+        complete: false
+      Exchange Rate Calculations:
+        target: 20
+        generated: 0
+        complete: false
+
+  Financial Statement Analysis:
+    prefix: FSA
+    target: 375
+    generated: 2
+    subtopics:
+      Introduction to FSA:
+        target: 25
+        generated: 1
+        complete: false
+      Analyzing Income Statements:
+        target: 50
+        generated: 1
+        complete: false
+      Analyzing Balance Sheets:
+        target: 40
+        generated: 0
+        complete: false
+      Analyzing Cash Flows I:
+        target: 35
+        generated: 0
+        complete: false
+      Analyzing Cash Flows II:
+        target: 30
+        generated: 0
+        complete: false
+      Analysis of Inventories:
+        target: 30
+        generated: 0
+        complete: false
+      Analysis of Long-Term Assets:
+        target: 35
+        generated: 0
+        complete: false
+      Topics in Long-Term Liabilities:
+        target: 35
+        generated: 0
+        complete: false
+      Analysis of Income Taxes:
+        target: 30
+        generated: 0
+        complete: false
+      Financial Reporting Quality:
+        target: 25
+        generated: 0
+        complete: false
+      Financial Analysis Techniques:
+        target: 25
+        generated: 0
+        complete: false
+      Financial Statement Modeling:
+        target: 15
+        generated: 0
+        complete: false
+
+  Corporate Issuers:
+    prefix: CI
+    target: 225
+    generated: 2
+    subtopics:
+      Organizational Forms:
+        target: 30
+        generated: 1
+        complete: false
+      Investors and Stakeholders:
+        target: 30
+        generated: 1
+        complete: false
+      Corporate Governance:
+        target: 35
+        generated: 0
+        complete: false
+      Working Capital and Liquidity:
+        target: 30
+        generated: 0
+        complete: false
+      Capital Investments:
+        target: 40
+        generated: 0
+        complete: false
+      Capital Structure:
+        target: 40
+        generated: 0
+        complete: false
+      Business Models:
+        target: 20
+        generated: 0
+        complete: false
+
+  Equity Investments:
+    prefix: EQ
+    target: 375
+    generated: 2
+    subtopics:
+      Market Organization:
+        target: 40
+        generated: 1
+        complete: false
+      Security Market Indexes:
+        target: 35
+        generated: 1
+        complete: false
+      Market Efficiency:
+        target: 35
+        generated: 0
+        complete: false
+      Overview of Equity Securities:
+        target: 30
+        generated: 0
+        complete: false
+      Company Analysis Past and Present:
+        target: 40
+        generated: 0
+        complete: false
+      Industry and Competitive Analysis:
+        target: 40
+        generated: 0
+        complete: false
+      Company Analysis Forecasting:
+        target: 35
+        generated: 0
+        complete: false
+      Equity Valuation:
+        target: 60
+        generated: 0
+        complete: false
+
+  Fixed Income:
+    prefix: FI
+    target: 375
+    generated: 2
+    subtopics:
+      Fixed-Income Features:
+        target: 30
+        generated: 1
+        complete: false
+      Fixed-Income Cash Flows:
+        target: 35
+        generated: 1
+        complete: false
+      Fixed-Income Issuance:
+        target: 25
+        generated: 0
+        complete: false
+      Fixed-Income Markets Corporate:
+        target: 25
+        generated: 0
+        complete: false
+      Fixed-Income Markets Government:
+        target: 20
+        generated: 0
+        complete: false
+      Bond Valuation:
+        target: 40
+        generated: 0
+        complete: false
+      Yield Measures Fixed-Rate:
+        target: 35
+        generated: 0
+        complete: false
+      Yield Measures Floating-Rate:
+        target: 20
+        generated: 0
+        complete: false
+      Term Structure:
+        target: 25
+        generated: 0
+        complete: false
+      Interest Rate Risk:
+        target: 25
+        generated: 0
+        complete: false
+      Duration Measures:
+        target: 30
+        generated: 0
+        complete: false
+      Convexity:
+        target: 25
+        generated: 0
+        complete: false
+      Curve-Based Risk:
+        target: 15
+        generated: 0
+        complete: false
+      Credit Risk:
+        target: 25
+        generated: 0
+        complete: false
+      Credit Analysis:
+        target: 25
+        generated: 0
+        complete: false
+      Securitization:
+        target: 20
+        generated: 0
+        complete: false
+      ABS:
+        target: 20
+        generated: 0
+        complete: false
+      MBS:
+        target: 20
+        generated: 0
+        complete: false
+
+  Derivatives:
+    prefix: DER
+    target: 195
+    generated: 2
+    subtopics:
+      Derivative Features:
+        target: 20
+        generated: 1
+        complete: false
+      Forward Commitments:
+        target: 30
+        generated: 1
+        complete: false
+      Derivative Benefits and Risks:
+        target: 20
+        generated: 0
+        complete: false
+      Arbitrage and Replication:
+        target: 20
+        generated: 0
+        complete: false
+      Forward Contract Pricing:
+        target: 25
+        generated: 0
+        complete: false
+      Futures Pricing:
+        target: 20
+        generated: 0
+        complete: false
+      Swap Pricing:
+        target: 20
+        generated: 0
+        complete: false
+      Option Pricing:
+        target: 25
+        generated: 0
+        complete: false
+      Put-Call Parity:
+        target: 15
+        generated: 0
+        complete: false
+      Binomial Model:
+        target: 15
+        generated: 0
+        complete: false
+
+  Alternative Investments:
+    prefix: ALT
+    target: 255
+    generated: 2
+    subtopics:
+      Alternative Investment Features:
+        target: 25
+        generated: 1
+        complete: false
+      Alternative Investment Performance:
+        target: 20
+        generated: 1
+        complete: false
+      Private Capital:
+        target: 40
+        generated: 0
+        complete: false
+      Real Estate:
+        target: 40
+        generated: 0
+        complete: false
+      Infrastructure:
+        target: 25
+        generated: 0
+        complete: false
+      Natural Resources:
+        target: 25
+        generated: 0
+        complete: false
+      Hedge Funds:
+        target: 35
+        generated: 0
+        complete: false
+      Digital Assets:
+        target: 15
+        generated: 0
+        complete: false
+
+  Portfolio Management:
+    prefix: PM
+    target: 300
+    generated: 2
+    subtopics:
+      Portfolio Risk and Return I:
+        target: 45
+        generated: 1
+        complete: false
+      Portfolio Risk and Return II:
+        target: 45
+        generated: 1
+        complete: false
+      Portfolio Management Overview:
+        target: 30
+        generated: 0
+        complete: false
+      Portfolio Planning:
+        target: 35
+        generated: 0
+        complete: false
+      Behavioral Biases:
+        target: 35
+        generated: 0
+        complete: false
+      Risk Management:
+        target: 40
+        generated: 0
+        complete: false
