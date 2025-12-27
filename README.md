@@ -140,18 +140,18 @@ Current question generation status:
 
 | Topic | Generated | Target | Status |
 |-------|-----------|--------|--------|
-| Ethics | 108 | 525 | Paused |
+| Ethics | 108 | 525 | In Progress |
 | Quantitative Methods | 225 | 225 | ✓ Complete |
-| Economics | 180 | 225 | In Progress |
-| Financial Statement Analysis | 2 | 375 | Pending |
-| Corporate Issuers | 2 | 225 | Pending |
-| Equity Investments | 2 | 375 | Pending |
+| Economics | 225 | 225 | ✓ Complete |
+| Financial Statement Analysis | 375 | 375 | ✓ Complete |
+| Corporate Issuers | 223 | 225 | Almost Complete |
+| Equity Investments | 88 | 375 | In Progress |
 | Fixed Income | 2 | 375 | Pending |
 | Derivatives | 2 | 195 | Pending |
 | Alternative Investments | 2 | 255 | Pending |
-| Portfolio Management | 2 | 300 | Pending |
+| Portfolio Management | 300 | 300 | ✓ Complete |
 
-**Total: ~523 / 3,075 questions (~17%)**
+**Total: 1,550 / 3,075 questions (50%)**
 
 *Last updated: 2025-12-27*
 
