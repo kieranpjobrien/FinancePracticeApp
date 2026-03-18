@@ -1,0 +1,38 @@
+# PMP Practice App Configuration
+# PMP certification exam preparation tool
+
+vault_path: "."  # Current directory
+
+server:
+  host: "localhost"
+  port: 8001
+  frontend_port: 5174
+
+practice:
+  default_questions: 20
+  default_time_per_question: 90  # seconds, 0 for untimed
+  show_explanation_immediately: false
+
+scoring:
+  weak_threshold: 60  # Below this % = weak domain
+  strong_threshold: 80  # Above this % = strong domain
+  min_questions_for_assessment: 10
+
+paths:
+  questions: "Questions"
+  sessions: "Sessions"
+
+# PMP exam domain weights
+domains:
+  - name: "People"
+    prefix: "PPL"
+    weight: 42.0
+    target_questions: 630
+  - name: "Process"
+    prefix: "PRC"
+    weight: 50.0
+    target_questions: 750
+  - name: "Business Environment"
+    prefix: "BIZ"
+    weight: 8.0
+    target_questions: 120

@@ -1,1 +1,0 @@
-"""Finance Practice App Backend."""
