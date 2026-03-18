@@ -1,6 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Question, QuestionResult } from '../types';
 
+function renderMarkdown(text: string) {
+  return text.split('\n').map((line, i) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, j) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={j} className="text-slate-100 font-semibold">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={j}>{part}</span>;
+    });
+    return <span key={i}>{rendered}{i < text.split('\n').length - 1 && '\n'}</span>;
+  });
+}
+
 interface Props {
   question: Question;
   questionNumber: number;
@@ -209,7 +222,7 @@ export function QuestionView({
             {result.is_correct ? 'Correct!' : 'Incorrect'}
           </p>
           <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
-            {result.explanation}
+            {renderMarkdown(result.explanation)}
           </p>
         </div>
       )}
