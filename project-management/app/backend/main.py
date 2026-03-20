@@ -1,4 +1,4 @@
-"""FastAPI backend for Project Management Practice App."""
+"""FastAPI backend for PMP Practice App."""
 
 import sys
 from pathlib import Path
@@ -28,8 +28,8 @@ question_bank = QuestionBank(config)
 session_manager = SessionManager(config, question_bank)
 
 app = FastAPI(
-    title="Project Management Practice App",
-    description="Practice questions for project management certification exam preparation",
+    title="PMP Practice App",
+    description="Practice questions for PMP certification exam preparation",
     version="1.0.0",
 )
 
@@ -325,7 +325,7 @@ def export_progress_csv():
     return Response(
         content=csv_content,
         media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=pm_progress.csv"}
+        headers={"Content-Disposition": "attachment; filename=pmp_progress.csv"}
     )
 
 

@@ -2,12 +2,12 @@
 setlocal EnableDelayedExpansion
 cd /d "%~dp0"
 
-title PM Practice App
+title PMP Practice App
 color 0A
 
 echo.
 echo  ========================================
-echo   PM Practice App
+echo   PMP Practice App
 echo  ========================================
 echo.
 
@@ -38,7 +38,7 @@ if not exist "app\frontend\node_modules" (
 
 :: Start backend in a new minimized window
 echo [3/4] Starting backend...
-start /min "" cmd /c "cd /d "%~dp0app\backend" && "%~dp0app\backend\venv\Scripts\python.exe" -m uvicorn main:app --host 127.0.0.1 --port 8001"
+start /min "" cmd /c "cd /d "%~dp0app\backend" && "%~dp0app\backend\venv\Scripts\python.exe" -m uvicorn main:app --host 127.0.0.1 --port 8009"
 
 :: Wait for backend to start
 echo      Waiting for backend...
@@ -52,7 +52,7 @@ start /min "" cmd /c "cd /d "%~dp0app\frontend" && npm run dev"
 echo      Waiting for servers...
 :wait_loop
 timeout /t 1 /nobreak >nul
-curl -s http://127.0.0.1:8001/ >nul 2>&1
+curl -s http://127.0.0.1:8009/ >nul 2>&1
 if errorlevel 1 goto wait_loop
 
 echo.
@@ -72,7 +72,7 @@ pause >nul
 
 :: Cleanup
 echo Stopping servers...
-for /f "tokens=2" %%a in ('tasklist /fi "windowtitle eq PM*" /fo list ^| find "PID:"') do (
+for /f "tokens=2" %%a in ('tasklist /fi "windowtitle eq PMP*" /fo list ^| find "PID:"') do (
     taskkill /pid %%a /f >nul 2>&1
 )
 taskkill /f /im "node.exe" >nul 2>&1

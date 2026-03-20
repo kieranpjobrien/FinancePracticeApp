@@ -191,7 +191,7 @@ class QuestionBank:
         return pool[:count]
 
     def select_weighted_by_exam(self, count: int) -> list[Question]:
-        """Select questions weighted by exam topic distribution."""
+        """Select questions weighted by CFA L1 exam topic distribution."""
         exam_weights = {
             "Ethics": 0.175,
             "Quantitative Methods": 0.075,

@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 echo.
 echo ========================================
-echo    PM Practice App - Setup
+echo    PMP Practice App - Setup
 echo ========================================
 echo.
 echo This script will set up your local environment.
@@ -135,7 +135,7 @@ echo To start the app, run:
 echo   start.bat
 echo.
 echo Or manually:
-echo   1. cd app\backend ^&^& venv\Scripts\activate ^&^& uvicorn main:app --reload --port 8001
+echo   1. cd app\backend ^&^& venv\Scripts\activate ^&^& uvicorn main:app --reload --port 8009
 echo   2. cd app\frontend ^&^& npm run dev
 echo.
 echo Then open http://localhost:5174 in your browser.

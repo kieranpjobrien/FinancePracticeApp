@@ -185,7 +185,7 @@ class QuestionBank:
         return pool[:count]
 
     def select_weighted_by_exam(self, count: int) -> list[Question]:
-        """Select questions weighted by exam domain distribution."""
+        """Select questions weighted by PMP exam domain distribution."""
         exam_weights = {
             "People": 0.42,
             "Process": 0.50,

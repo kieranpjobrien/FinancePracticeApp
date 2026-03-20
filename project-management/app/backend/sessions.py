@@ -272,7 +272,7 @@ class SessionManager:
                 "## Feedback Request", "",
                 "Copy the block below and paste into Claude for targeted feedback:", "",
                 "```yaml",
-                "# PM Practice Session Feedback Request",
+                "# PMP Practice Session Feedback Request",
                 f"session_id: {summary.session_id}",
                 f"date: {summary.date}",
                 f"score: {summary.score}/{summary.questions_attempted} ({summary.score_percent}%)",
@@ -304,7 +304,7 @@ class SessionManager:
             lines.extend([
                 "```", "",
                 "**Prompt to use:**",
-                "> Review these PM practice questions I got wrong. For each:",
+                "> Review these PMP practice questions I got wrong. For each:",
                 "> 1. Explain why my answer was incorrect",
                 "> 2. Explain why the correct answer is right",
                 "> 3. Identify the specific PM concept I need to review",

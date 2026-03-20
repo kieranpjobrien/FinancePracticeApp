@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 echo.
 echo ========================================
-echo    Finance Practice App - Setup
+echo    CFA Practice App - Setup
 echo ========================================
 echo.
 echo This script will set up your local environment.

@@ -5,7 +5,7 @@ vault_path: "."  # Current directory
 
 server:
   host: "localhost"
-  port: 8001
+  port: 8009
   frontend_port: 5174
 
 practice:

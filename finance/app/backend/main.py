@@ -1,4 +1,4 @@
-"""FastAPI backend for Finance Practice App."""
+"""FastAPI backend for CFA Practice App."""
 
 import sys
 from pathlib import Path
@@ -32,8 +32,8 @@ session_manager = SessionManager(config, question_bank)
 
 # Create FastAPI app
 app = FastAPI(
-    title="Finance Practice App",
-    description="Practice questions for finance certification exam preparation",
+    title="CFA Practice App",
+    description="Practice questions for CFA certification exam preparation",
     version="1.0.0",
 )
 
@@ -335,7 +335,7 @@ def export_progress_csv():
     return Response(
         content=csv_content,
         media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=finance_progress.csv"}
+        headers={"Content-Disposition": "attachment; filename=cfa_progress.csv"}
     )
 
 
