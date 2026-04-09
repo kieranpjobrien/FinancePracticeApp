@@ -13,35 +13,58 @@ export default class PMPPracticePlugin extends Plugin {
   async onload(): Promise<void> {
     await this.loadSettings();
 
-    this.questionBank = new QuestionBank(this.app, this.settings.questionsPath);
-    this.sessionManager = new SessionManager(this.app, this.questionBank, this.settings.sessionsPath);
+    // Migrate old single-path settings into exams if needed
+    if (!this.settings.exams || Object.keys(this.settings.exams).length === 0) {
+      this.settings.exams = DEFAULT_SETTINGS.exams;
+      this.settings.activeExam = 'PMP';
+    }
 
-    // Load questions and paused sessions
+    const exam = this.settings.exams[this.settings.activeExam] || Object.values(this.settings.exams)[0];
+    this.questionBank = new QuestionBank(this.app, exam.questionsPath);
+    this.sessionManager = new SessionManager(this.app, this.questionBank, exam.sessionsPath);
+
     await this.questionBank.loadAllQuestions();
     const data = await this.loadData();
     if (data) {
       this.sessionManager.loadPausedSessions(data);
     }
 
-    // Register the practice view
     this.registerView(VIEW_TYPE_PMP_PRACTICE, (leaf) => new PMPPracticeView(leaf, this));
 
-    // Add ribbon icon
-    this.addRibbonIcon('graduation-cap', 'PMP Practice', () => {
+    this.addRibbonIcon('graduation-cap', 'Practice App', () => {
       this.activateView();
     });
 
-    // Add command
     this.addCommand({
-      id: 'open-pmp-practice',
-      name: 'Open PMP Practice',
+      id: 'open-practice-app',
+      name: 'Open Practice App',
       callback: () => {
         this.activateView();
       },
     });
 
-    // Add settings tab
     this.addSettingTab(new PMPPracticeSettingTab(this.app, this));
+  }
+
+  async switchExam(examName: string): Promise<void> {
+    const exam = this.settings.exams[examName];
+    if (!exam) return;
+
+    this.settings.activeExam = examName;
+    await this.saveSettings();
+
+    this.questionBank = new QuestionBank(this.app, exam.questionsPath);
+    this.sessionManager = new SessionManager(this.app, this.questionBank, exam.sessionsPath);
+
+    await this.questionBank.loadAllQuestions();
+    const data = await this.loadData();
+    if (data) {
+      this.sessionManager.loadPausedSessions(data);
+    }
+  }
+
+  getExamNames(): string[] {
+    return Object.keys(this.settings.exams);
   }
 
   async activateView(): Promise<void> {

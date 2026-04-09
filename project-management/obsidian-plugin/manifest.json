@@ -1,9 +1,9 @@
 {
-  "id": "pmp-practice",
-  "name": "PMP Practice",
-  "version": "1.0.0",
+  "id": "practice-app",
+  "name": "Practice App",
+  "version": "2.1.0",
   "minAppVersion": "1.0.0",
-  "description": "Practice questions for PMP certification exam preparation with spaced repetition",
-  "author": "PMP Practice App",
+  "description": "Practice questions for CFA, PMP, and other certification exams with spaced repetition",
+  "author": "Practice App",
   "isDesktopOnly": false
 }

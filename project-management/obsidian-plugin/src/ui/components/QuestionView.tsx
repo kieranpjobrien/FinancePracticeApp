@@ -5,8 +5,6 @@ interface Props {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
-  timed: boolean;
-  timePerQuestion: number;
   onAnswer: (selectedAnswer: string, timeSeconds: number, confidence: 'guessing' | 'maybe' | 'sure') => QuestionResult | null;
   onNext: () => void;
 }
@@ -25,17 +23,15 @@ function renderMarkdown(text: string) {
 }
 
 export function QuestionView({
-  question, questionNumber, totalQuestions, timed, timePerQuestion, onAnswer, onNext,
+  question, questionNumber, totalQuestions, onAnswer, onNext,
 }: Props) {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [confidence, setConfidence] = useState<'guessing' | 'maybe' | 'sure'>('maybe');
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [result, setResult] = useState<QuestionResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setSelectedAnswer(null);
-    setConfidence('maybe');
     setTimeElapsed(0);
     setResult(null);
   }, [question.id]);
@@ -50,21 +46,13 @@ export function QuestionView({
     if (!selectedAnswer || submitting) return;
     setSubmitting(true);
     try {
-      const res = onAnswer(selectedAnswer, timeElapsed, confidence);
+      const res = onAnswer(selectedAnswer, timeElapsed, 'maybe');
       setResult(res);
     } finally {
       setSubmitting(false);
     }
-  }, [selectedAnswer, timeElapsed, confidence, onAnswer, submitting]);
+  }, [selectedAnswer, timeElapsed, onAnswer, submitting]);
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const timeRemaining = timed ? Math.max(0, timePerQuestion - timeElapsed) : null;
-  const isOvertime = timed && timeElapsed > timePerQuestion;
   const progressPercent = (questionNumber / totalQuestions) * 100;
 
   return (
@@ -77,19 +65,16 @@ export function QuestionView({
       {/* Header */}
       <div className="pmp-question-header">
         <div>
-          <span className="pmp-text-muted">Question {questionNumber} of {totalQuestions}</span>
+          <span className="pmp-text-muted">Q{questionNumber}/{totalQuestions}</span>
           <div className="pmp-text-small">{question.domain} &rsaquo; {question.task}</div>
         </div>
-        <div className={`pmp-timer ${isOvertime ? 'pmp-timer-overtime' : ''}`}>
-          {timed ? formatTime(timeRemaining!) : <span className="pmp-text-muted">{formatTime(timeElapsed)}</span>}
-        </div>
+        <span className={`pmp-badge pmp-badge-${question.difficulty.toLowerCase()}`}>
+          {question.difficulty}
+        </span>
       </div>
 
       {/* Question */}
       <div className="pmp-question-body">
-        <span className={`pmp-badge pmp-badge-${question.difficulty.toLowerCase()}`}>
-          {question.difficulty}
-        </span>
         <p className="pmp-question-text">{question.question}</p>
       </div>
 
@@ -118,34 +103,10 @@ export function QuestionView({
             >
               <span className="pmp-option-key">{key}</span>
               <span className="pmp-option-text">{text}</span>
-              {result && isCorrect && <span className="pmp-option-label pmp-text-success">Correct</span>}
-              {result && isWrong && <span className="pmp-option-label pmp-text-danger">Wrong</span>}
             </button>
           );
         })}
       </div>
-
-      {/* Confidence */}
-      {!result && (
-        <div className="pmp-confidence">
-          <label className="pmp-section-label">Confidence</label>
-          <div className="pmp-btn-group">
-            {([
-              { value: 'guessing' as const, label: 'Guessing' },
-              { value: 'maybe' as const, label: 'Maybe' },
-              { value: 'sure' as const, label: 'Sure' },
-            ]).map(({ value, label }) => (
-              <button
-                key={value}
-                onClick={() => setConfidence(value)}
-                className={`pmp-confidence-btn ${confidence === value ? `pmp-confidence-${value}` : ''}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Explanation */}
       {result && (
@@ -157,18 +118,18 @@ export function QuestionView({
 
       {/* Actions */}
       <div className="pmp-actions">
-        <span className="pmp-text-muted pmp-timer-small">{formatTime(timeElapsed)}</span>
+        <div />
         {!result ? (
           <button
             onClick={handleSubmit}
             disabled={!selectedAnswer || submitting}
             className="pmp-btn pmp-btn-primary"
           >
-            {submitting ? 'Submitting...' : 'Submit Answer'}
+            Submit
           </button>
         ) : (
           <button onClick={onNext} className="pmp-btn pmp-btn-primary">
-            {questionNumber < totalQuestions ? 'Next Question' : 'Finish Session'}
+            {questionNumber < totalQuestions ? 'Next' : 'Finish'}
           </button>
         )}
       </div>

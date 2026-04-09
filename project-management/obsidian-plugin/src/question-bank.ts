@@ -61,11 +61,10 @@ export class QuestionBank {
 
     const sections = body.split('## ');
     for (const section of sections) {
-      if (section.startsWith('Question') || section.trim().startsWith('#')) {
-        const lines = section.split('\n', 2);
-        if (lines.length > 1) {
-          questionText = section.slice(section.indexOf('\n') + 1).trim();
-        }
+      if (section.startsWith('Question')) {
+        questionText = section.slice(section.indexOf('\n') + 1).trim();
+        // Strip leading markdown heading artifacts like "# Question"
+        questionText = questionText.replace(/^#\s*Question\s*\n*/i, '').trim();
       } else if (section.startsWith('Options')) {
         for (const line of section.split('\n')) {
           const trimmed = line.trim();
@@ -98,8 +97,8 @@ export class QuestionBank {
 
     return {
       id: metadata.id,
-      domain: metadata.domain || '',
-      task: metadata.task || '',
+      domain: metadata.domain || metadata.topic || '',
+      task: metadata.task || metadata.subtopic || '',
       difficulty: metadata.difficulty || 'Medium',
       type: metadata.type || 'situational',
       question: questionText,

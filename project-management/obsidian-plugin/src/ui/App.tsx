@@ -34,10 +34,30 @@ export function App({ plugin }: Props) {
   const [summary, setSummary] = useState<SessionSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pausedSessions, setPausedSessions] = useState<PausedSession[]>([]);
+  const [activeExam, setActiveExam] = useState<string>(plugin.settings.activeExam || 'PMP');
+  const [switching, setSwitching] = useState(false);
 
   useEffect(() => {
     setPausedSessions(plugin.sessionManager.getPausedSessions());
-  }, [appState]);
+  }, [appState, activeExam]);
+
+  const handleSwitchExam = useCallback(async (examName: string) => {
+    if (examName === activeExam || switching) return;
+    setSwitching(true);
+    try {
+      await plugin.switchExam(examName);
+      setActiveExam(examName);
+      setSession(null);
+      setCurrentQuestion(null);
+      setSummary(null);
+      setError(null);
+      setAppState('config');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to switch exam');
+    } finally {
+      setSwitching(false);
+    }
+  }, [activeExam, switching, plugin]);
 
   const handleStartSession = useCallback((config: SessionConfigType) => {
     try {
@@ -169,25 +189,35 @@ export function App({ plugin }: Props) {
       <header className="pmp-header">
         <div className="pmp-header-inner">
           <div className="pmp-header-left">
-            <div className="pmp-logo">P</div>
-            <h1 className="pmp-title">PM Practice</h1>
-            {appState === 'practice' && session && (
-              <span className="pmp-counter">
-                {session.currentIndex + 1} / {session.questions.length}
-              </span>
+            {appState !== 'practice' ? (
+              <div className="pmp-exam-selector">
+                {plugin.getExamNames().map(name => (
+                  <button
+                    key={name}
+                    onClick={() => handleSwitchExam(name)}
+                    disabled={switching}
+                    className={`pmp-exam-tab ${activeExam === name ? 'pmp-exam-tab-active' : ''}`}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <>
+                <div className="pmp-logo">{activeExam[0]}</div>
+                <h1 className="pmp-title">{activeExam}</h1>
+                <span className="pmp-counter">
+                  {session ? `${session.currentIndex + 1} / ${session.questions.length}` : ''}
+                </span>
+              </>
             )}
           </div>
           <nav className="pmp-nav">
             {appState === 'practice' && session && (
               <button onClick={handlePauseSession} className="pmp-btn pmp-btn-warning">Pause</button>
             )}
-            {appState === 'config' && (
-              <>
-                <button onClick={() => setAppState('browse')} className="pmp-btn pmp-btn-ghost">Browse</button>
-                <button onClick={() => setAppState('progress')} className="pmp-btn pmp-btn-primary-outline">Progress</button>
-              </>
-            )}
-            {(appState === 'progress' || appState === 'browse') && (
+            {appState === 'config' && null}
+            {false && (
               <button onClick={() => setAppState('config')} className="pmp-btn pmp-btn-ghost">&larr; Back</button>
             )}
           </nav>
@@ -223,7 +253,7 @@ export function App({ plugin }: Props) {
                 </div>
               </div>
             )}
-            <SessionConfigPanel onStart={handleStartSession} plugin={plugin} />
+            <SessionConfigPanel onStart={handleStartSession} plugin={plugin} activeExam={activeExam} />
           </div>
         )}
 
@@ -234,8 +264,6 @@ export function App({ plugin }: Props) {
             question={currentQuestion}
             questionNumber={session.currentIndex + 1}
             totalQuestions={session.questions.length}
-            timed={session.config.timed}
-            timePerQuestion={session.config.time_per_question}
             onAnswer={handleAnswer}
             onNext={handleNext}
           />

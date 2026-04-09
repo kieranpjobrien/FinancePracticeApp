@@ -127,11 +127,18 @@ export interface SessionHistory {
   domains: string[];
 }
 
+export interface ExamConfig {
+  questionsPath: string;
+  sessionsPath: string;
+}
+
 export interface PluginSettings {
   questionsPath: string;
   sessionsPath: string;
   defaultQuestions: number;
   defaultTimePerQuestion: number;
+  activeExam: string;
+  exams: Record<string, ExamConfig>;
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
@@ -139,4 +146,9 @@ export const DEFAULT_SETTINGS: PluginSettings = {
   sessionsPath: 'Sessions',
   defaultQuestions: 20,
   defaultTimePerQuestion: 90,
+  activeExam: 'PMP',
+  exams: {
+    'PMP': { questionsPath: '01_Practice/Questions/PMP', sessionsPath: '01_Practice/Sessions/PMP' },
+    'CFA': { questionsPath: '01_Practice/Questions/CFA', sessionsPath: '01_Practice/Sessions/CFA' },
+  },
 };

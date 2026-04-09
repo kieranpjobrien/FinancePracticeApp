@@ -11,6 +11,7 @@
   color: var(--text-normal);
   max-width: 800px;
   margin: 0 auto;
+  padding-left: 4px;
 }
 
 /* Header */
@@ -233,16 +234,20 @@
 
 /* Option buttons (session type, question count, difficulty) */
 .pmp-option-btn {
-  padding: 10px 14px;
+  padding: 8px 10px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   border: 1px solid var(--background-modifier-border);
   background: var(--background-primary);
   color: var(--text-normal);
-  text-align: left;
+  text-align: center;
   transition: all 0.15s;
+  white-space: normal;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .pmp-option-btn:hover:not(:disabled) {
@@ -271,9 +276,15 @@
   margin-top: 2px;
 }
 
+.pmp-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
 .pmp-grid-4 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
 }
 
@@ -426,15 +437,15 @@
 }
 
 .pmp-question-body {
-  padding: 16px;
+  padding: 10px 16px;
 }
 
 .pmp-question-text {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.45;
   color: var(--text-normal);
   white-space: pre-wrap;
-  margin: 8px 0 0;
+  margin: 4px 0 0;
 }
 
 .pmp-question-meta {
@@ -486,25 +497,29 @@
 
 /* Options */
 .pmp-options {
-  padding: 0 16px 12px;
+  padding: 0 12px 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
 }
 
 .pmp-option {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px;
+  padding: 10px;
   border-radius: 8px;
   border: 1px solid var(--background-modifier-border);
   background: var(--background-primary);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   text-align: left;
   transition: all 0.15s;
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  white-space: normal;
 }
 
 .pmp-option:hover:not(:disabled) {
@@ -534,11 +549,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 6px;
   background: var(--background-modifier-hover);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   flex-shrink: 0;
@@ -546,8 +561,12 @@
 
 .pmp-option-text {
   flex: 1;
+  min-width: 0;
   color: var(--text-normal);
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .pmp-option-label {
@@ -939,3 +958,31 @@
 .pmp-center { display: flex; align-items: center; justify-content: center; min-height: 200px; }
 .pmp-mb-4 { margin-bottom: 16px; }
 .pmp-mt-4 { margin-top: 16px; }
+
+/* Exam selector tabs */
+.pmp-exam-selector {
+  display: flex;
+  gap: 4px;
+}
+
+.pmp-exam-tab {
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.pmp-exam-tab:hover:not(:disabled) {
+  background: var(--background-modifier-hover);
+}
+
+.pmp-exam-tab-active {
+  background: var(--interactive-accent) !important;
+  color: var(--text-on-accent) !important;
+  border-color: var(--interactive-accent) !important;
+}
