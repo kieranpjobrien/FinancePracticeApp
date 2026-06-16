@@ -1,4 +1,4 @@
-export type ExamType = "cfa" | "pmp";
+export type ExamType = "cfa" | "pmp" | "prince2";
 
 export interface ExamConfig {
   name: string;
@@ -129,6 +129,23 @@ export const EXAM_CONFIGS: Record<ExamType, ExamConfig> = {
       { name: "People", weight: 42.0 },
       { name: "Process", weight: 50.0 },
       { name: "Business Environment", weight: 8.0 },
+    ],
+  },
+  prince2: {
+    name: "PRINCE2 7",
+    questionsPath: "Questions/PRINCE2",
+    sessionsPath: "Sessions/PRINCE2",
+    categoryLabel: "Area",
+    subcategoryLabel: "Topic",
+    categoryField: "area",
+    subcategoryField: "topic",
+    questionTypes: ["foundation", "practitioner"],
+    sessionTypes: ["category_drill", "mixed", "weak_areas", "mock_exam"],
+    categories: [
+      { name: "Principles", weight: 20 },
+      { name: "Practices", weight: 35 },
+      { name: "Processes", weight: 35 },
+      { name: "People", weight: 10 },
     ],
   },
 };

@@ -1,5 +1,5 @@
 # Unified Practice App Configuration
-# Supports multiple exam types (CFA, PMP)
+# Supports multiple exam types (CFA, PMP, PRINCE2)
 
 vault_path: "."
 
@@ -115,3 +115,37 @@ exams:
         prefix: "BIZ"
         weight: 8.0
         target_questions: 120
+
+  prince2:
+    name: "PRINCE2 7"
+    questions_path: "Questions/PRINCE2"
+    sessions_path: "Sessions/PRINCE2"
+    category_label: "Area"
+    subcategory_label: "Topic"
+    category_field: "area"
+    subcategory_field: "topic"
+    question_types:
+      - foundation
+      - practitioner
+    session_types:
+      - category_drill
+      - mixed
+      - weak_areas
+      - mock_exam
+    categories:
+      - name: "Principles"
+        prefix: "PRIN"
+        weight: 20.0
+        target_questions: 154
+      - name: "Practices"
+        prefix: "PRAC"
+        weight: 35.0
+        target_questions: 154
+      - name: "Processes"
+        prefix: "PROC"
+        weight: 35.0
+        target_questions: 154
+      - name: "People"
+        prefix: "PEOP"
+        weight: 10.0
+        target_questions: 66

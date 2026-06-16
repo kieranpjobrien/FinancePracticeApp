@@ -159,7 +159,7 @@ export function App({ app, settings, saveSettings }: Props) {
       <header className="pmp-header">
         <div className="pmp-header-inner">
           <div className="pmp-header-left">
-            <div className="pmp-logo">{examType === "cfa" ? "C" : "P"}</div>
+            <div className="pmp-logo">{examType === "cfa" ? "C" : examType === "pmp" ? "P" : "P2"}</div>
             {appState === "practice" ? (
               <>
                 <h1 className="pmp-title">{examConfig?.name}</h1>
