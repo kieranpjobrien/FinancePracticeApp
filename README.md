@@ -1,52 +1,78 @@
-# Practice Apps
+# Practice App
 
-Self-study practice question apps for certification exam preparation. Built with FastAPI (Python) backend and React/TypeScript frontend.
+A single, config-driven self-study app covering **CFA** (Financial Analysis) and **PMP** (Project Management) exams. One FastAPI backend and one React/TypeScript frontend serve every exam type; the same question bank also ships as an Obsidian plugin that reads the Markdown directly (works on mobile).
 
-## Apps
+~3,000 CFA questions and ~2,400 PMP questions, stored as Markdown with YAML frontmatter — no database.
 
-| App | Questions | Path | Backend Port | Frontend Port |
-|-----|-----------|------|-------------|---------------|
-| **Finance Practice** | ~3,000 across 10 topics | `finance/` | 8000 | 5173 |
-| **Project Management Practice** | ~1,500 across 3 domains | `project-management/` | 8001 | 5174 |
+## Structure
 
-Both apps can run simultaneously on different ports.
+| Path | Contents |
+|------|----------|
+| `app/backend/` | FastAPI backend — config-driven, one app serves all exams |
+| `app/frontend/` | React + TypeScript (Vite) frontend |
+| `Questions/CFA/`, `Questions/PMP/` | Question bank (Markdown + YAML frontmatter) |
+| `plugin/` | Obsidian plugin — source in `src/`, plus prebuilt `main.js` / `manifest.json` / `styles.css` |
+| `config.yaml` | Exam definitions, category weights, server settings |
+| `docs/` | Study resources and design notes |
 
-## Quick Start
+## Running the app
 
 ```bash
-# Finance Practice
-cd finance
-setup.bat    # First time only
-start.bat    # Opens http://localhost:5173
+# Backend (port 8010)
+cd app/backend
+python -m venv venv
+venv/Scripts/pip install -r requirements.txt   # first time
+venv/Scripts/python -m uvicorn main:app --host 127.0.0.1 --port 8010 --reload
 
-# Project Management Practice
-cd project-management
-setup.bat    # First time only
-start.bat    # Opens http://localhost:5174
+# Frontend (port 5173, proxies /api to the backend)
+cd app/frontend
+npm install   # first time
+npm run dev
 ```
 
-## Features
+## Obsidian plugin
 
-- Timed and untimed practice sessions
-- Multiple session types: Mixed, Topic/Domain Drill, Weak Areas, Mock Exam
-- Spaced repetition question selection
-- Confidence tracking (guessing / maybe / sure)
-- Immediate feedback with explanations
-- Progress dashboard with per-topic/domain breakdown
-- Question browser with filters
-- Session pause/resume
-- CSV progress export
-- Session logs with feedback blocks for Claude review
+Copy `plugin/` into your vault as `.obsidian/plugins/practice-app/` — the prebuilt `main.js`, `manifest.json` and `styles.css` are included, so no build step is required. To rebuild from source:
 
-## Tech Stack
+```bash
+cd plugin
+npm install
+npm run build   # node esbuild.config.mjs
+```
 
-- **Backend**: Python 3.10+, FastAPI, Pydantic, python-frontmatter
-- **Frontend**: React 19, TypeScript, Tailwind CSS v4, Vite
-- **Storage**: Markdown files with YAML frontmatter (no database)
+## Adding an exam type
+
+Add a section to `config.yaml`, a `Questions/{TYPE}/` folder, and question Markdown files. No code changes required.
+
+## Question format
+
+```markdown
+---
+id: ETH-001
+topic: Ethics
+subtopic: Code of Conduct
+difficulty: Medium
+type: conceptual
+---
+
+## Question
+...
+
+## Options
+- **A**: ...
+- **B**: ...
+- **C**: ...
+
+## Answer
+A
+
+## Explanation
+...
+```
 
 ## Disclaimer
 
-All questions are AI-generated for personal study purposes. This is not affiliated with or endorsed by any certification body. No copyrighted exam content is reproduced.
+All questions are AI-generated for personal study. Not affiliated with or endorsed by any certification body. No copyrighted exam content is reproduced.
 
 ## License
 

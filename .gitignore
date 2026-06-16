@@ -54,3 +54,6 @@ dist/
 # ----- Duplicate finder scripts -----
 find_duplicates.py
 remove_duplicates.py
+
+# ----- Obsidian plugin runtime data (personal progress) -----
+**/data.json
