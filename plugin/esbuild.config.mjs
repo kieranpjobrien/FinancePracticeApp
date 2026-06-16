@@ -17,6 +17,7 @@ const ctx = await esbuild.context({
   outfile: resolve(outdir, "main.js"),
   format: "cjs",
   platform: "browser",
+  jsx: "automatic",
   external: ["obsidian", "electron", "@codemirror/*", "@lezer/*"],
   define: {
     "process.env.NODE_ENV": '"production"',

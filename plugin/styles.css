@@ -507,11 +507,10 @@
 }
 
 .pmp-option {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  column-gap: 10px;
-  padding: 14px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
   min-height: 54px;
   border-radius: 8px;
   border: 1px solid var(--background-modifier-border);
@@ -565,6 +564,7 @@
 }
 
 .pmp-option-text {
+  flex: 1;
   min-width: 0;
   color: var(--text-normal);
   font-size: 14px;
@@ -990,3 +990,6 @@
   color: var(--text-on-accent) !important;
   border-color: var(--interactive-accent) !important;
 }
+
+/* Options render as <div role="button"> (see QuestionView) so they grow to fit
+   multi-line text in Obsidian's mobile webview — a <button> would not. */

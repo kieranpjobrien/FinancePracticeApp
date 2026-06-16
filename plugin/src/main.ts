@@ -31,14 +31,15 @@ class PracticeView extends ItemView {
   async onOpen(): Promise<void> {
     const container = this.containerEl.children[1] as HTMLElement;
     container.empty();
-    container.style.padding = "0";
-    container.style.overflow = "auto";
+    container.addClass("pmp-practice-container");
+    const mount = container.createDiv();
 
-    this.root = createRoot(container);
+    this.root = createRoot(mount);
     this.root.render(
       createElement(PracticeApp, {
         app: this.app,
         settings: this.plugin.settings,
+        saveSettings: () => this.plugin.saveSettings(),
       })
     );
   }
@@ -57,9 +58,7 @@ export default class PracticePlugin extends Plugin {
 
     this.registerView(VIEW_TYPE, (leaf) => new PracticeView(leaf, this));
 
-    this.addRibbonIcon("graduation-cap", "Practice App", () => {
-      this.activateView();
-    });
+    this.addRibbonIcon("graduation-cap", "Practice App", () => this.activateView());
 
     this.addCommand({
       id: "open-practice-app",
@@ -70,7 +69,6 @@ export default class PracticePlugin extends Plugin {
 
   async activateView(): Promise<void> {
     const { workspace } = this.app;
-
     let leaf = workspace.getLeavesOfType(VIEW_TYPE)[0];
     if (!leaf) {
       const newLeaf = workspace.getRightLeaf(false);
@@ -79,9 +77,7 @@ export default class PracticePlugin extends Plugin {
         leaf = newLeaf;
       }
     }
-    if (leaf) {
-      workspace.revealLeaf(leaf);
-    }
+    if (leaf) workspace.revealLeaf(leaf);
   }
 
   async loadSettings(): Promise<void> {

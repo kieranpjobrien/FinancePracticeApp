@@ -13,30 +13,25 @@ export interface ExamConfig {
   categories: { name: string; weight: number }[];
 }
 
-export interface Question {
+/** Lightweight question metadata, built from Obsidian's cached frontmatter (no file body read). */
+export interface QuestionMeta {
   id: string;
   category: string;
   subcategory: string;
   difficulty: "Easy" | "Medium" | "Hard";
   type: string;
-  question: string;
-  options: Record<string, string>;
-  answer: string;
-  explanation: string;
-  tags: string[];
   timesShown: number;
   timesCorrect: number;
   lastShown: string | null;
   filePath: string;
 }
 
-export interface QuestionResponse {
-  id: string;
-  category: string;
-  subcategory: string;
-  difficulty: string;
+/** A fully-loaded question, including the body (read on demand). */
+export interface Question extends QuestionMeta {
   question: string;
   options: Record<string, string>;
+  answer: string;
+  explanation: string;
 }
 
 export interface QuestionResult {
@@ -82,30 +77,18 @@ export interface PausedSession {
   examType: ExamType;
 }
 
-export interface CategoryProgress {
-  totalQuestions: number;
-  timesShown: number;
-  timesCorrect: number;
-  accuracy: number;
-  questionsSeen: number;
-  questionsMastered: number;
-}
-
-export interface Progress {
-  overall: { timesShown: number; timesCorrect: number; accuracy: number };
-  byCategory: Record<string, CategoryProgress>;
-}
-
 export interface PluginSettings {
   practiceBasePath: string;
   defaultQuestions: number;
   defaultTimePerQuestion: number;
+  lastExam: ExamType | null;
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
   practiceBasePath: "01_Practice",
   defaultQuestions: 20,
   defaultTimePerQuestion: 90,
+  lastExam: null,
 };
 
 export const EXAM_CONFIGS: Record<ExamType, ExamConfig> = {
@@ -118,7 +101,7 @@ export const EXAM_CONFIGS: Record<ExamType, ExamConfig> = {
     categoryField: "topic",
     subcategoryField: "subtopic",
     questionTypes: ["conceptual", "calculation", "application"],
-    sessionTypes: ["topic_drill", "subtopic_drill", "mixed", "weak_areas", "mock_exam"],
+    sessionTypes: ["topic_drill", "mixed", "weak_areas", "mock_exam"],
     categories: [
       { name: "Ethics", weight: 17.5 },
       { name: "Quantitative Methods", weight: 7.5 },

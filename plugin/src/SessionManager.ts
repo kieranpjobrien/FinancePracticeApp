@@ -1,14 +1,22 @@
 import { type App, type TFile, normalizePath } from "obsidian";
-import type { ExamType, ExamConfig, PluginSettings, SessionConfig, SessionSummary, PausedSession, QuestionResult } from "./types";
+import type { ExamType, ExamConfig, PluginSettings, SessionConfig, SessionSummary, PausedSession, QuestionResult, QuestionMeta } from "./types";
 import { EXAM_CONFIGS } from "./types";
 import { QuestionBank } from "./QuestionBank";
+
+interface AnswerRecord {
+  selectedAnswer: string;
+  correctAnswer: string;
+  isCorrect: boolean;
+  timeSeconds: number;
+  confidence: string;
+}
 
 interface ActiveSession {
   sessionId: string;
   config: SessionConfig;
   questions: string[];
   currentIndex: number;
-  answers: Map<string, { selectedAnswer: string; timeSeconds: number; confidence: string }>;
+  answers: Map<string, AnswerRecord>;
   startedAt: Date;
   examType: ExamType;
 }
@@ -33,17 +41,17 @@ export class SessionManager {
     const now = new Date();
     const sessionId = `${now.toISOString().slice(0, 10)}-${now.toTimeString().slice(0, 5).replace(":", "")}${now.getSeconds().toString().padStart(2, "0")}-${Math.random().toString(36).slice(2, 8)}`;
 
-    let questions: ReturnType<QuestionBank["selectQuestions"]>;
+    let selected: QuestionMeta[];
     const st = config.sessionType;
 
     if (st === "mock_exam") {
-      questions = this.questionBank.selectWeightedByExam(config.questionCount);
-    } else if (st.includes("drill") && st !== "subtopic_drill") {
-      questions = this.questionBank.selectQuestions(config.questionCount, config.categories, config.difficulty);
+      selected = this.questionBank.selectWeightedByExam(config.questionCount);
     } else if (st === "weak_areas") {
-      questions = this.questionBank.selectWeakAreas(config.questionCount);
+      selected = this.questionBank.selectWeakAreas(config.questionCount);
+    } else if (st.includes("drill")) {
+      selected = this.questionBank.selectQuestions(config.questionCount, config.categories, config.difficulty);
     } else {
-      questions = this.questionBank.selectQuestions(
+      selected = this.questionBank.selectQuestions(
         config.questionCount,
         config.categories.length > 0 ? config.categories : undefined,
         config.difficulty
@@ -53,7 +61,7 @@ export class SessionManager {
     this.activeSession = {
       sessionId,
       config,
-      questions: questions.map((q) => q.id),
+      questions: selected.map((q) => q.id),
       currentIndex: 0,
       answers: new Map(),
       startedAt: now,
@@ -63,13 +71,19 @@ export class SessionManager {
     return this.activeSession;
   }
 
-  submitAnswer(questionId: string, selectedAnswer: string, timeSeconds: number, confidence: string): QuestionResult | null {
+  async submitAnswer(questionId: string, selectedAnswer: string, timeSeconds: number, confidence: string): Promise<QuestionResult | null> {
     if (!this.activeSession) return null;
-    const question = this.questionBank.getQuestion(questionId);
+    const question = await this.questionBank.loadQuestion(questionId);
     if (!question) return null;
 
-    this.activeSession.answers.set(questionId, { selectedAnswer, timeSeconds, confidence });
     const isCorrect = selectedAnswer === question.answer;
+    this.activeSession.answers.set(questionId, {
+      selectedAnswer,
+      correctAnswer: question.answer,
+      isCorrect,
+      timeSeconds,
+      confidence,
+    });
 
     return {
       questionId,
@@ -92,32 +106,30 @@ export class SessionManager {
     const errorSummary: Record<string, number> = {};
 
     for (const questionId of session.questions) {
-      const question = this.questionBank.getQuestion(questionId);
+      const meta = this.questionBank.getMeta(questionId);
       const answer = session.answers.get(questionId);
-      if (!question || !answer) continue;
+      if (!meta || !answer) continue;
 
-      const isCorrect = answer.selectedAnswer === question.answer;
-      if (isCorrect) totalCorrect++;
+      if (answer.isCorrect) totalCorrect++;
       totalTime += answer.timeSeconds;
 
-      if (!resultsByCategory[question.category]) {
-        resultsByCategory[question.category] = { correct: 0, total: 0, percent: 0 };
+      if (!resultsByCategory[meta.category]) {
+        resultsByCategory[meta.category] = { correct: 0, total: 0, percent: 0 };
       }
-      resultsByCategory[question.category].total++;
-      if (isCorrect) resultsByCategory[question.category].correct++;
+      resultsByCategory[meta.category].total++;
+      if (answer.isCorrect) resultsByCategory[meta.category].correct++;
 
-      if (!isCorrect) {
+      if (!answer.isCorrect) {
         if (answer.timeSeconds < 30) {
           errorSummary["time_pressure"] = (errorSummary["time_pressure"] || 0) + 1;
         } else if (answer.confidence === "sure") {
           errorSummary["overconfidence"] = (errorSummary["overconfidence"] || 0) + 1;
         } else {
-          errorSummary[question.type] = (errorSummary[question.type] || 0) + 1;
+          errorSummary[meta.type] = (errorSummary[meta.type] || 0) + 1;
         }
       }
 
-      // Update question stats in vault
-      await this.questionBank.updateQuestionStats(questionId, isCorrect);
+      await this.questionBank.updateQuestionStats(questionId, answer.isCorrect);
     }
 
     for (const cat of Object.keys(resultsByCategory)) {
@@ -150,10 +162,8 @@ export class SessionManager {
 
   private async saveSessionLog(session: ActiveSession, summary: SessionSummary): Promise<void> {
     const sessionsDir = normalizePath(`${this.settings.practiceBasePath}/${this.examConfig.sessionsPath}`);
-
-    // Ensure directory exists
     if (!this.app.vault.getAbstractFileByPath(sessionsDir)) {
-      await this.app.vault.createFolder(sessionsDir);
+      await this.app.vault.createFolder(sessionsDir).catch(() => {});
     }
 
     const filename = `${summary.date}-${summary.time.replace(":", "")}.md`;
@@ -191,14 +201,14 @@ export class SessionManager {
       lines.push(`| ${cat} | ${data.correct} | ${data.total} | ${data.percent}% |`);
     }
 
-    await this.app.vault.create(filepath, lines.join("\n"));
+    await this.app.vault.create(filepath, lines.join("\n")).catch(() => {});
   }
 
   async savePausedSession(): Promise<void> {
     if (!this.activeSession) return;
     const sessionsDir = normalizePath(`${this.settings.practiceBasePath}/${this.examConfig.sessionsPath}/paused`);
     if (!this.app.vault.getAbstractFileByPath(sessionsDir)) {
-      await this.app.vault.createFolder(sessionsDir);
+      await this.app.vault.createFolder(sessionsDir).catch(() => {});
     }
 
     const filepath = normalizePath(`${sessionsDir}/${this.activeSession.sessionId}.json`);
@@ -211,15 +221,13 @@ export class SessionManager {
       startedAt: this.activeSession.startedAt.toISOString(),
       examType: this.activeSession.examType,
     };
-    await this.app.vault.create(filepath, JSON.stringify(data, null, 2));
+    await this.app.vault.create(filepath, JSON.stringify(data, null, 2)).catch(() => {});
   }
 
   async loadPausedSessions(): Promise<PausedSession[]> {
     const paused: PausedSession[] = [];
     const pausedDir = normalizePath(`${this.settings.practiceBasePath}/${this.examConfig.sessionsPath}/paused`);
-
-    const folder = this.app.vault.getAbstractFileByPath(pausedDir);
-    if (!folder) return paused;
+    if (!this.app.vault.getAbstractFileByPath(pausedDir)) return paused;
 
     const files = this.app.vault.getFiles().filter(
       (f) => f.path.startsWith(pausedDir) && f.extension === "json"
@@ -234,7 +242,7 @@ export class SessionManager {
           startedAt: data.startedAt,
           questionsTotal: data.questions.length,
           questionsAnswered: Object.keys(data.answers).length,
-          categories: [...new Set(data.questions.map((qId: string) => this.questionBank.getQuestion(qId)?.category).filter(Boolean))] as string[],
+          categories: [...new Set(data.questions.map((qId: string) => this.questionBank.getMeta(qId)?.category).filter(Boolean))] as string[],
           examType: data.examType || this.examType,
         });
       } catch {
@@ -248,7 +256,7 @@ export class SessionManager {
     const pausedDir = normalizePath(`${this.settings.practiceBasePath}/${this.examConfig.sessionsPath}/paused`);
     const filepath = normalizePath(`${pausedDir}/${sessionId}.json`);
     const file = this.app.vault.getAbstractFileByPath(filepath);
-    if (!file || !(file as TFile).extension) return null;
+    if (!file || !((file as TFile).extension)) return null;
 
     const content = await this.app.vault.read(file as TFile);
     const data = JSON.parse(content);
@@ -258,7 +266,7 @@ export class SessionManager {
       config: data.config,
       questions: data.questions,
       currentIndex: Object.keys(data.answers).length,
-      answers: new Map(Object.entries(data.answers)),
+      answers: new Map(Object.entries(data.answers)) as Map<string, AnswerRecord>,
       startedAt: new Date(data.startedAt),
       examType: data.examType || this.examType,
     };
