@@ -3,7 +3,9 @@
 
 .pmp-practice-container {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   height: 100%;
+  max-height: 100%;
 }
 
 .pmp-app {
@@ -441,8 +443,8 @@
 }
 
 .pmp-question-text {
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--text-normal);
   white-space: pre-wrap;
   margin: 4px 0 0;
@@ -497,26 +499,27 @@
 
 /* Options */
 .pmp-options {
-  padding: 0 12px 8px;
+  padding: 0 14px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
 }
 
 .pmp-option {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 14px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: 10px;
+  padding: 14px 14px;
   min-height: 54px;
   border-radius: 8px;
   border: 1px solid var(--background-modifier-border);
   background: var(--background-primary);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
-  transition: all 0.15s;
+  transition: background 0.15s, border-color 0.15s;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
@@ -550,24 +553,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
   background: var(--background-modifier-hover);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
   flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .pmp-option-text {
-  flex: 1;
   min-width: 0;
   color: var(--text-normal);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
   word-wrap: break-word;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .pmp-option-label {
@@ -636,14 +639,14 @@
 .pmp-explanation-title {
   font-weight: 600;
   margin: 0 0 6px 0;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .pmp-explanation-correct .pmp-explanation-title { color: var(--text-success); }
 .pmp-explanation-wrong .pmp-explanation-title { color: var(--text-error); }
 
 .pmp-explanation-text {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--text-normal);
   white-space: pre-wrap;
