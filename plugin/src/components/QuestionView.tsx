@@ -10,30 +10,53 @@ interface Props {
 }
 
 export function QuestionView({ question, questionNumber, totalQuestions, onAnswer, onNext }: Props) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [single, setSingle] = useState<string | null>(null);
+  const [multi, setMulti] = useState<Record<string, boolean>>({});
+  const [pairs, setPairs] = useState<Record<string, string>>({});
   const [result, setResult] = useState<QuestionResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const startRef = useRef<number>(Date.now());
 
   useEffect(() => {
-    setSelected(null);
+    setSingle(null);
+    setMulti({});
+    setPairs({});
     setResult(null);
     startRef.current = Date.now();
   }, [question.id]);
 
+  const fmt = question.format;
+
+  const buildAnswer = useCallback(() => {
+    if (fmt === "multi") return Object.keys(multi).filter((k) => multi[k]).sort().join(",");
+    if (fmt === "matching") {
+      return Object.entries(pairs).filter(([, v]) => v).map(([k, v]) => `${k}-${v}`).sort().join(",");
+    }
+    return single ?? "";
+  }, [fmt, single, multi, pairs]);
+
+  const canSubmit =
+    fmt === "multi" ? Object.values(multi).some(Boolean)
+    : fmt === "matching" ? Object.keys(question.options).every((k) => pairs[k])
+    : !!single;
+
   const handleSubmit = useCallback(async () => {
-    if (!selected || submitting) return;
+    if (!canSubmit || submitting) return;
     setSubmitting(true);
     try {
       const seconds = Math.round((Date.now() - startRef.current) / 1000);
-      const r = await onAnswer(selected, seconds, "maybe");
+      const r = await onAnswer(buildAnswer(), seconds, "maybe");
       setResult(r);
     } finally {
       setSubmitting(false);
     }
-  }, [selected, onAnswer, submitting]);
+  }, [canSubmit, submitting, buildAnswer, onAnswer]);
 
   const progress = (questionNumber / totalQuestions) * 100;
+  const correctSet = result ? new Set(result.correctAnswer.split(",").map((s) => s.trim().toUpperCase())) : null;
+  const correctMatchFor = (key: string) =>
+    result ? result.correctAnswer.split(",").map((s) => s.trim()).find((p) => p.startsWith(`${key}-`))?.split("-")[1] ?? null : null;
+  const hint = fmt === "multi" ? "Select all that apply" : fmt === "matching" ? "Match each item on the left" : null;
 
   return (
     <div className="pmp-card pmp-question-card">
@@ -51,43 +74,73 @@ export function QuestionView({ question, questionNumber, totalQuestions, onAnswe
 
       <div className="pmp-question-body">
         <p className="pmp-question-text">{question.question}</p>
+        {hint && <p className="pmp-text-small" style={{ marginTop: "6px" }}>{hint}</p>}
       </div>
 
-      <div className="pmp-options">
-        {Object.entries(question.options).map(([key, text]) => {
-          const isSelected = selected === key;
-          const isCorrect = result?.correctAnswer === key;
-          const isWrong = !!result && isSelected && !result.isCorrect;
+      {fmt !== "matching" && (
+        <div className="pmp-options">
+          {Object.entries(question.options).map(([key, text]) => {
+            const chosen = fmt === "multi" ? !!multi[key] : single === key;
+            let cls = "pmp-option";
+            if (result) {
+              if (correctSet?.has(key)) cls += " pmp-option-correct";
+              else if (chosen) cls += " pmp-option-wrong";
+              else cls += " pmp-option-faded";
+            } else if (chosen) {
+              cls += " pmp-option-selected";
+            }
+            const toggle = () => {
+              if (result) return;
+              if (fmt === "multi") setMulti((p) => ({ ...p, [key]: !p[key] }));
+              else setSingle(key);
+            };
+            return (
+              <div
+                key={key}
+                className={cls}
+                role="button"
+                tabIndex={result ? -1 : 0}
+                onClick={toggle}
+                onKeyDown={(e) => { if (!result && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggle(); } }}
+              >
+                <span className="pmp-option-key">{key}</span>
+                <span className="pmp-option-text">{text}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
-          let cls = "pmp-option";
-          if (result) {
-            if (isCorrect) cls += " pmp-option-correct";
-            else if (isWrong) cls += " pmp-option-wrong";
-            else cls += " pmp-option-faded";
-          } else if (isSelected) {
-            cls += " pmp-option-selected";
-          }
-
-          return (
-            <div
-              key={key}
-              className={cls}
-              role="button"
-              tabIndex={result ? -1 : 0}
-              onClick={() => !result && setSelected(key)}
-              onKeyDown={(e) => {
-                if (!result && (e.key === "Enter" || e.key === " ")) {
-                  e.preventDefault();
-                  setSelected(key);
-                }
-              }}
-            >
-              <span className="pmp-option-key">{key}</span>
-              <span className="pmp-option-text">{text}</span>
-            </div>
-          );
-        })}
-      </div>
+      {fmt === "matching" && (
+        <div className="pmp-options">
+          {Object.entries(question.options).map(([key, text]) => {
+            const chosen = pairs[key];
+            const correct = correctMatchFor(key);
+            const ok = !!result && chosen === correct;
+            let cls = "pmp-option";
+            if (result) cls += ok ? " pmp-option-correct" : " pmp-option-wrong";
+            return (
+              <div key={key} className={cls} style={{ alignItems: "center", gap: "8px" }}>
+                <span className="pmp-option-text"><strong>{key}.</strong> {text}</span>
+                {!result ? (
+                  <select
+                    className="pmp-select"
+                    value={chosen ?? ""}
+                    onChange={(e) => setPairs((p) => ({ ...p, [key]: e.target.value }))}
+                  >
+                    <option value="">—</option>
+                    {Object.entries(question.matches ?? {}).map(([mk, mtext]) => (
+                      <option key={mk} value={mk}>{mk}: {mtext}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <span className="pmp-text-small">{chosen ?? "—"}{ok ? "" : ` → ${correct ?? "?"}`}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {result && (
         <div className={`pmp-explanation ${result.isCorrect ? "pmp-explanation-correct" : "pmp-explanation-wrong"}`}>
@@ -99,7 +152,7 @@ export function QuestionView({ question, questionNumber, totalQuestions, onAnswe
       <div className="pmp-actions">
         <div />
         {!result ? (
-          <button className="pmp-btn pmp-btn-primary" onClick={handleSubmit} disabled={!selected || submitting}>
+          <button className="pmp-btn pmp-btn-primary" onClick={handleSubmit} disabled={!canSubmit || submitting}>
             {submitting ? "Submitting…" : "Submit Answer"}
           </button>
         ) : (

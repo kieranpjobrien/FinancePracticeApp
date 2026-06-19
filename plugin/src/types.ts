@@ -20,6 +20,7 @@ export interface QuestionMeta {
   subcategory: string;
   difficulty: "Easy" | "Medium" | "Hard";
   type: string;
+  format: "single" | "multi" | "matching";
   timesShown: number;
   timesCorrect: number;
   lastShown: string | null;
@@ -30,6 +31,8 @@ export interface QuestionMeta {
 export interface Question extends QuestionMeta {
   question: string;
   options: Record<string, string>;
+  /** For matching questions: the right-hand items to pair against `options`. */
+  matches?: Record<string, string>;
   answer: string;
   explanation: string;
 }

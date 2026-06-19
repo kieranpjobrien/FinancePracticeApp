@@ -76,7 +76,8 @@ export class SessionManager {
     const question = await this.questionBank.loadQuestion(questionId);
     if (!question) return null;
 
-    const isCorrect = selectedAnswer === question.answer;
+    const norm = (s: string) => s.split(",").map((x) => x.trim().toUpperCase()).filter(Boolean).sort().join(",");
+    const isCorrect = norm(selectedAnswer) === norm(question.answer);
     this.activeSession.answers.set(questionId, {
       selectedAnswer,
       correctAnswer: question.answer,

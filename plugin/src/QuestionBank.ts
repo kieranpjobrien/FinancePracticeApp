@@ -77,6 +77,7 @@ export class QuestionBank {
       subcategory: String(fm[subField] ?? fm.subcategory ?? ""),
       difficulty: (fm.difficulty as QuestionMeta["difficulty"]) ?? "Medium",
       type: String(fm.type ?? "conceptual"),
+      format: fm.format === "multi" ? "multi" : fm.format === "matching" ? "matching" : "single",
       timesShown: Number(fm.times_shown ?? 0),
       timesCorrect: Number(fm.times_correct ?? 0),
       lastShown: (fm.last_shown as string) ?? null,
@@ -97,9 +98,10 @@ export class QuestionBank {
 
     const content = await this.app.vault.cachedRead(file);
     const body = content.replace(/^---\n[\s\S]*?\n---/, "");
-    const { questionText, options, answer, explanation } = this.parseBody(body);
-
-    const q: Question = { ...m, question: questionText, options, answer, explanation };
+    const parsed = this.parseBody(body);
+    const q: Question = m.format === "matching"
+      ? { ...m, question: parsed.questionText, options: parsed.items, matches: parsed.matches, answer: parsed.answer, explanation: parsed.explanation }
+      : { ...m, question: parsed.questionText, options: parsed.options, answer: parsed.answer, explanation: parsed.explanation };
     this.full.set(id, q);
     return q;
   }
@@ -107,13 +109,28 @@ export class QuestionBank {
   private parseBody(body: string): {
     questionText: string;
     options: Record<string, string>;
+    items: Record<string, string>;
+    matches: Record<string, string>;
     answer: string;
     explanation: string;
   } {
     let questionText = "";
     const options: Record<string, string> = {};
+    const items: Record<string, string> = {};
+    const matches: Record<string, string> = {};
     let answer = "";
     let explanation = "";
+
+    const letters = ["A", "B", "C", "D", "E", "F"];
+    const digits = ["1", "2", "3", "4", "5", "6"];
+    const parseList = (section: string, keys: string[], target: Record<string, string>) => {
+      for (const line of section.split("\n")) {
+        const trimmed = line.trim();
+        for (const k of keys) {
+          if (trimmed.startsWith(`- **${k}**:`)) target[k] = trimmed.replace(`- **${k}**:`, "").trim();
+        }
+      }
+    };
 
     const sections = body.split("## ");
     for (const section of sections) {
@@ -121,14 +138,11 @@ export class QuestionBank {
         const lines = section.split("\n", 2);
         questionText = lines.length > 1 ? lines[1].trim() : section.replace("# Question", "").trim();
       } else if (section.startsWith("Options")) {
-        for (const line of section.split("\n")) {
-          const trimmed = line.trim();
-          for (const letter of ["A", "B", "C", "D"]) {
-            if (trimmed.startsWith(`- **${letter}**:`)) {
-              options[letter] = trimmed.replace(`- **${letter}**:`, "").trim();
-            }
-          }
-        }
+        parseList(section, letters, options);
+      } else if (section.startsWith("Items")) {
+        parseList(section, digits, items);
+      } else if (section.startsWith("Matches")) {
+        parseList(section, letters, matches);
       } else if (section.startsWith("Answer")) {
         answer = section.replace("Answer", "").trim().split("\n")[0].trim();
       } else if (section.startsWith("Explanation")) {
@@ -145,7 +159,7 @@ export class QuestionBank {
       }
     }
 
-    return { questionText, options, answer, explanation };
+    return { questionText, options, items, matches, answer, explanation };
   }
 
   getMeta(id: string): QuestionMeta | undefined {
